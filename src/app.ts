@@ -3,6 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import { logger } from '@shared/utils/logs/logger';
 
 class ServerBootstrap {
     private app: express.Application = express();
@@ -26,7 +27,7 @@ class ServerBootstrap {
 
     private listen() {
         this.app.listen(this.port, () => {
-            console.log('server is running at port: ', this.port);
+            logger.info(`Server is running at port: ${this.port}`);
         });
     }
 }
