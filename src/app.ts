@@ -1,9 +1,12 @@
+import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { logger } from '@shared/utils/logs/logger';
+import { UserRouter } from '@presentation/routes/userRouter';
+import { container } from 'tsyringe';
 
 class ServerBootstrap {
     private app: express.Application = express();
@@ -22,7 +25,14 @@ class ServerBootstrap {
                 message: 'Too many request from this IP, Try again later.'
             })
         );
+
+        this.app.use('/api', this.routers());
         this.listen();
+    }
+
+    routers(): Array<express.Router> {
+        const userRouter = container.resolve(UserRouter);
+        return [userRouter.router];
     }
 
     private listen() {
