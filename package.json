@@ -1,0 +1,38 @@
+{
+    "name": "portfolio-blog",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc",
+        "start:dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+        "lint": "eslint 'src/**/*.{js,ts}'",
+        "lint:fix": "eslint 'src/**/*.{js,ts}' --fix",
+        "format": "prettier --write 'src/**/*.{js,ts,json,md}'"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "class-transformer": "^0.5.1",
+        "class-validator": "^0.14.1",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "pg": "^8.13.1",
+        "ts-node-dev": "^2.0.0",
+        "typeorm": "^0.3.20",
+        "typeorm-naming-strategies": "^4.1.0",
+        "winston": "^3.17.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.18.0",
+        "@types/cors": "^2.8.17",
+        "@types/express": "^5.0.0",
+        "eslint": "^9.18.0",
+        "globals": "^15.14.0",
+        "prettier": "^3.4.2",
+        "typescript": "^5.7.3",
+        "typescript-eslint": "^8.21.0"
+    }
+}
