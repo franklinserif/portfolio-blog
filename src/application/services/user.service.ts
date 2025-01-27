@@ -1,3 +1,4 @@
+import { CreateUserDto } from '@application/dtos/createUser.dto';
 import { CreateUser } from '@domain/useCases/createUser';
 import { TypeORMUserRepository } from '@infrastructure/repositories/TypeORMUser.repository';
 
@@ -9,19 +10,13 @@ export class UserService {
         this.createUser = new CreateUser(userRepository);
     }
 
-    async create(
-        id: string,
-        firstName: string,
-        lastName: string,
-        email: string,
-        password: string
-    ) {
+    async create(createUserDto: CreateUserDto) {
         return this.createUser.execute(
-            id,
-            firstName,
-            lastName,
-            email,
-            password
+            createUserDto.id,
+            createUserDto.firstName,
+            createUserDto.lastName,
+            createUserDto.email,
+            createUserDto.password
         );
     }
 }
