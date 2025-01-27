@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
-import { AppDataSource } from '../database/dataSource';
+import { AppDataSource } from '@infrastructure/database/dataSource';
 import { User } from '@domain/entities/user';
-import { UserRepository } from '../../domain/repositories/UserRepository';
+import { UserRepository } from '@domain/repositories/user.repository';
 
 export class TypeORMUserRepository implements UserRepository {
     private repository: Repository<User>;
