@@ -4,9 +4,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-
-import { UserRouter } from '@presentation/routes/userRouter';
 import { container } from 'tsyringe';
+import { UserRouter } from '@presentation/routes/user.router';
 import { config } from '@shared/utils/config/config';
 import { AppDataSource } from './infrastructure/database/dataSource';
 
