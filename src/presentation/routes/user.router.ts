@@ -1,6 +1,9 @@
+import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
-import { UserController } from '@presentation/controllers/userController';
+import { UserController } from '@presentation/controllers/user.controller';
 import { BaseRouter } from './router';
+import { CreateUserDto } from '@application/dtos/createUser.dto';
+import { validationMiddleware } from '@shared/middlewares/validation.middleware';
 
 @autoInjectable()
 export class UserRouter extends BaseRouter {
@@ -14,6 +17,13 @@ export class UserRouter extends BaseRouter {
     routes(): void {
         this.router.get('/users', (req, res) =>
             this.userController.findAllUser(req, res)
+        );
+
+        this.router.post(
+            '/users',
+            validationMiddleware(CreateUserDto),
+            (req: Request, res: Response) =>
+                this.userController.createUser(req, res)
         );
 
         this.router.get('/users/:id', (req, res) =>
