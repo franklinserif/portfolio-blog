@@ -1,5 +1,5 @@
 import { CreateUser } from '@domain/useCases/createUser';
-import { TypeORMUserRepository } from '@infrastructure/repositories/TypeORMUserRepository';
+import { TypeORMUserRepository } from '@infrastructure/repositories/TypeORMUser.repository';
 
 export class UserService {
     private createUser: CreateUser;
