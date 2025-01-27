@@ -1,6 +1,6 @@
-import { UserService } from '@infrastructure/services/userService';
 import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
+import { UserService } from '@application/services/user.service';
 
 @autoInjectable()
 export class UserController {
