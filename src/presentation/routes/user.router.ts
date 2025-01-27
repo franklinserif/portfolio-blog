@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
 import { UserController } from '@presentation/controllers/user.controller';
 import { BaseRouter } from './router';
@@ -22,8 +21,7 @@ export class UserRouter extends BaseRouter {
         this.router.post(
             '/users',
             validationMiddleware(CreateUserDto),
-            (req: Request, res: Response) =>
-                this.userController.createUser(req, res)
+            (req, res) => this.userController.createUser(req, res)
         );
 
         this.router.get('/users/:id', (req, res) =>
