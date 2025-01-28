@@ -1,8 +1,8 @@
 import { autoInjectable } from 'tsyringe';
 import { UserController } from '@presentation/controllers/user.controller';
-import { BaseRouter } from './router';
-import { CreateUserDto } from '@application/dtos/createUser.dto';
+import { CreateUserDto } from '@application/dtos/users/createUser.dto';
 import { validationMiddleware } from '@shared/middlewares/validation.middleware';
+import { BaseRouter } from './router';
 
 @autoInjectable()
 export class UserRouter extends BaseRouter {

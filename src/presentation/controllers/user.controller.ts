@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
 import { UserService } from '@application/services/user.service';
-import { CreateUserDto } from '@application/dtos/createUser.dto';
+import { CreateUserDto } from '@application/dtos/users/createUser.dto';
 
 @autoInjectable()
 export class UserController {

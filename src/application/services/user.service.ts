@@ -1,5 +1,5 @@
-import { CreateUserDto } from '@application/dtos/createUser.dto';
-import { CreateUser } from '@domain/useCases/createUser';
+import { CreateUserDto } from '@application/dtos/users/createUser.dto';
+import { CreateUser } from '@domain/useCases/users/createUser';
 import { TypeORMUserRepository } from '@infrastructure/repositories/TypeORMUser.repository';
 
 export class UserService {
