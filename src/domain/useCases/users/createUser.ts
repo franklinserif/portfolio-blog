@@ -1,7 +1,7 @@
 import { User } from '@domain/entities/user';
 import { UserRepository } from '@domain/repositories/user.repository';
 
-export class CreateUser {
+export class CreateUserUseCase {
     constructor(private userRepository: UserRepository) {}
 
     async execute(
