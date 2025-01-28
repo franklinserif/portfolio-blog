@@ -13,6 +13,7 @@ export class CreateUser {
             createUserDto.email,
             createUserDto.password
         );
+
         return this.userRepository.create(user);
     }
 }
