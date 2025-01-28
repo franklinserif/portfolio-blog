@@ -9,7 +9,7 @@ const config: DataSourceOptions = {
     port: envConfig.DB_PORT,
     username: envConfig.DB_USERNAME,
     password: envConfig.DB_PASSWORD,
-    entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
+    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
     synchronize: true,
     logging: false,
     namingStrategy: new SnakeNamingStrategy()
