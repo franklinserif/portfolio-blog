@@ -12,7 +12,7 @@ import { AppDataSource } from './infrastructure/database/dataSource';
 class ServerBootstrap {
     private app: express.Application = express();
     //private logger: ILogger = new Logger(ServerBootstrap.name);
-    private port: number = 3000;
+    private port: number = config.PORT;
 
     /**
      * Initializes the server application, sets up middleware, routes, database connection, and starts listening on the specified port.
