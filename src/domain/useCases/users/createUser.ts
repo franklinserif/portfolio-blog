@@ -20,11 +20,13 @@ export class CreateUser {
                 createUserDto.id,
                 createUserDto.firstName,
                 createUserDto.lastName,
-                createUserDto.email,
-                hashedPassword
+                createUserDto.email
             );
 
-            return this.userRepository.create(user);
+            return this.userRepository.create({
+                ...user,
+                password: hashedPassword
+            });
         } catch (error) {
             this.logger.error(
                 `something went wrong creating the user ${error}`
