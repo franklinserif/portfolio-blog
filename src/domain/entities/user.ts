@@ -9,14 +9,11 @@ export class User {
 
     email: string;
 
-    password!: string;
-
     constructor(
         id: string = '',
         firstName: string = '',
         lastName: string = '',
-        email: string = '',
-        password: string = ''
+        email: string = ''
     ) {
         this.id = id;
 
@@ -25,8 +22,6 @@ export class User {
         this.lastName = lastName.toLowerCase().trim();
 
         this.email = email.toLowerCase().trim();
-
-        this.password = password;
     }
 
     static serializeUser(typeOrmUser: TypeOrmUser): User {
