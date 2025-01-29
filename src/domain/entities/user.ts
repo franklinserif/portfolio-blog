@@ -1,7 +1,7 @@
 import { User as TypeOrmUser } from '@infrastructure/entities/user.entity';
 import { ILogger } from '@shared/interfaces/logs';
 import { Crypt } from '@shared/utils/crypt/crypt';
-import { Logger } from '@shared/utils/logs/logger';
+import { Logger } from '@shared/utils/logger/logger';
 
 export class User {
     private readonly logger: ILogger = new Logger(User.name);

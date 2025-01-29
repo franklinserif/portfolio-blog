@@ -9,7 +9,7 @@ import { UserRouter } from '@presentation/routes/user.router';
 import { config } from '@shared/utils/config/config';
 import { AppDataSource } from './infrastructure/database/dataSource';
 import { ILogger } from '@shared/interfaces/logs';
-import { Logger } from '@shared/utils/logs/logger';
+import { Logger } from '@shared/utils/logger/logger';
 
 class ServerBootstrap {
     private readonly app: express.Application = express();
