@@ -1,4 +1,4 @@
-import { User } from '@domain/entities/user';
+import { User } from '@infrastructure/entities/user.entity';
 import { DeleteResult } from 'typeorm';
 
 export interface UserRepository {
