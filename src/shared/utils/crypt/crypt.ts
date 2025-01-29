@@ -8,7 +8,7 @@ export abstract class Crypt {
     static async hashPassword(password: string) {
         const salt = await bcrypt.genSalt(this.saltRount);
 
-        const hashesPassword = bcrypt.hash(salt, password);
+        const hashesPassword = bcrypt.hash(password, salt);
 
         return hashesPassword;
     }
