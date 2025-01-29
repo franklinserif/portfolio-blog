@@ -1,6 +1,11 @@
 import { User as TypeOrmUser } from '@infrastructure/entities/user.entity';
+import { ILogger } from '@shared/interfaces/logs';
+import { Crypt } from '@shared/utils/crypt/crypt';
+import { Logger } from '@shared/utils/logs/logger';
 
 export class User {
+    private readonly logger: ILogger = new Logger(User.name);
+
     id: string;
 
     firstName: string;
@@ -9,7 +14,7 @@ export class User {
 
     email: string;
 
-    password: string;
+    password!: string;
 
     constructor(
         id: string = '',
@@ -26,7 +31,13 @@ export class User {
 
         this.email = email.toLowerCase().trim();
 
-        this.password = password;
+        Crypt.hashPassword(password)
+            .then((encryptedPassword) => (this.password = encryptedPassword))
+            .catch((error) =>
+                this.logger.error(
+                    `something went wrong encrypting the password ${error?.stack}`
+                )
+            );
     }
 
     static serializeUser(typeOrmUser: TypeOrmUser): User {
