@@ -8,11 +8,13 @@ import { container } from 'tsyringe';
 import { UserRouter } from '@presentation/routes/user.router';
 import { config } from '@shared/utils/config/config';
 import { AppDataSource } from './infrastructure/database/dataSource';
+import { ILogger } from '@shared/interfaces/logs';
+import { Logger } from '@shared/utils/logs/logger';
 
 class ServerBootstrap {
-    private app: express.Application = express();
-    //private logger: ILogger = new Logger(ServerBootstrap.name);
-    private port: number = config.PORT;
+    private readonly app: express.Application = express();
+    private readonly logger: ILogger = new Logger(ServerBootstrap.name);
+    private readonly port: number = config.PORT;
 
     /**
      * Initializes the server application, sets up middleware, routes, database connection, and starts listening on the specified port.
@@ -27,9 +29,9 @@ class ServerBootstrap {
 
     private initConnect(): void {
         AppDataSource.initialize()
-            .then(() => console.log('Database connection successfully'))
+            .then(() => this.logger.info('Database connection successfully'))
             .catch((error) =>
-                console.error(`something went wrong ${error.stack}`)
+                this.logger.error(`something went wrong ${error.stack}`)
             );
     }
 
@@ -46,7 +48,7 @@ class ServerBootstrap {
         this.app.use(cors());
         this.app.use(
             morgan('combined', {
-                stream: { write: (message) => console.log(message) }
+                stream: { write: (message) => this.logger.info(message) }
             })
         );
         if (config.NODE_ENV === 'production') {
@@ -80,7 +82,7 @@ class ServerBootstrap {
      */
     private listen(): void {
         this.app.listen(this.port, () => {
-            console.log(`Server is running at port: ${this.port}`);
+            this.logger.info(`Server is running at port: ${this.port}`);
         });
     }
 }
