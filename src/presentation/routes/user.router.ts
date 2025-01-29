@@ -1,6 +1,7 @@
 import { autoInjectable } from 'tsyringe';
 import { UserController } from '@presentation/controllers/user.controller';
 import { CreateUserDto } from '@application/dtos/users/createUser.dto';
+import { UpdateUserDto } from '@application/dtos/users/updateUser.dto';
 import { validationMiddleware } from '@shared/middlewares/validation.middleware';
 import { BaseRouter } from './router';
 
@@ -28,8 +29,10 @@ export class UserRouter extends BaseRouter {
             this.userController.findUser(req, res)
         );
 
-        this.router.put('/users/:id', (req, res) =>
-            this.userController.updateUser(req, res)
+        this.router.put(
+            '/users/:id',
+            validationMiddleware(UpdateUserDto),
+            (req, res) => this.userController.updateUser(req, res)
         );
 
         this.router.delete('/users/:id', (req, res) =>
