@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from 'typeorm';
+import { Post } from './post.entity';
 
 @Entity('users')
 export class User {
@@ -16,4 +24,13 @@ export class User {
 
     @Column('text')
     password!: string;
+
+    @OneToMany(() => Post, (posts) => posts.user)
+    posts!: Post[];
+
+    @CreateDateColumn({ type: 'timestamptz' })
+    createdAt!: Date;
+
+    @UpdateDateColumn({ type: 'timestamptz' })
+    updatedAt!: Date;
 }
