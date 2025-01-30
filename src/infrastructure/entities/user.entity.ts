@@ -25,12 +25,12 @@ export class User {
     @Column('text')
     password!: string;
 
-    @OneToMany(() => Post, (posts) => posts.user)
-    posts!: Post[];
+    @OneToMany(() => Post, (posts) => posts.user, { nullable: true })
+    posts?: Post[];
 
     @CreateDateColumn({ type: 'timestamptz' })
-    createdAt!: Date;
+    createdAt?: Date;
 
     @UpdateDateColumn({ type: 'timestamptz' })
-    updatedAt!: Date;
+    updatedAt?: Date;
 }
