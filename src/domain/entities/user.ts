@@ -6,12 +6,7 @@ export class User {
     lastName: string;
     email: string;
 
-    constructor(
-        id: string = '',
-        firstName: string = '',
-        lastName: string = '',
-        email: string = ''
-    ) {
+    constructor({ id, firstName, lastName, email }: User) {
         this.id = id;
         this.firstName = firstName.toLowerCase().trim();
         this.lastName = lastName.toLowerCase().trim();
@@ -19,12 +14,12 @@ export class User {
     }
 
     static serializeUser(typeOrmUser: TypeOrmUser): User {
-        const user = new User(
-            typeOrmUser.id,
-            typeOrmUser.firstName,
-            typeOrmUser.lastName,
-            typeOrmUser.password
-        );
+        const user = new User({
+            id: typeOrmUser.id,
+            firstName: typeOrmUser.firstName,
+            lastName: typeOrmUser.lastName,
+            email: typeOrmUser.email
+        });
 
         return user;
     }
