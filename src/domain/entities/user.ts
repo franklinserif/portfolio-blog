@@ -2,11 +2,8 @@ import { User as TypeOrmUser } from '@infrastructure/entities/user.entity';
 
 export class User {
     id: string;
-
     firstName: string;
-
     lastName: string;
-
     email: string;
 
     constructor(
@@ -16,11 +13,8 @@ export class User {
         email: string = ''
     ) {
         this.id = id;
-
         this.firstName = firstName.toLowerCase().trim();
-
         this.lastName = lastName.toLowerCase().trim();
-
         this.email = email.toLowerCase().trim();
     }
 
