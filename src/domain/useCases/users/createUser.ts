@@ -16,12 +16,7 @@ export class CreateUser {
                 createUserDto.password
             );
 
-            const user = new User(
-                createUserDto.id,
-                createUserDto.firstName,
-                createUserDto.lastName,
-                createUserDto.email
-            );
+            const user = new User(createUserDto);
 
             return this.userRepository.create({
                 ...user,
