@@ -19,6 +19,9 @@ export class Comments {
     email!: string;
 
     @Column('text')
+    emailHash!: string;
+
+    @Column('text')
     fullName!: string;
 
     @CreateDateColumn({ type: 'timestamptz' })
