@@ -6,7 +6,7 @@ export interface UserRepository {
 
     findAll(): Promise<User[]>;
 
-    create(user: User): Promise<User>;
+    create(user: Omit<User, 'checkFieldsBeforeInsert'>): Promise<User>;
 
     update(id: string, user: Partial<User>): Promise<User>;
 
