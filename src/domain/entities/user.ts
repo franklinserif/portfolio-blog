@@ -8,9 +8,9 @@ export class User {
 
     constructor({ id, firstName, lastName, email }: User) {
         this.id = id;
-        this.firstName = firstName.toLowerCase().trim();
-        this.lastName = lastName.toLowerCase().trim();
-        this.email = email.toLowerCase().trim();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
     }
 
     static serializeUser(typeOrmUser: TypeOrmUser): User {
