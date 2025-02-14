@@ -1,4 +1,5 @@
 import {
+    BeforeInsert,
     Column,
     CreateDateColumn,
     Entity,
@@ -25,4 +26,11 @@ export class Comments {
 
     @UpdateDateColumn({ type: 'timestamptz' })
     updatedAt!: Date;
+
+    @BeforeInsert()
+    checkFieldsBeforeInsert() {
+        this.comment = this.comment.trim().toLowerCase();
+        this.email = this.email.trim().toLowerCase();
+        this.fullName = this.fullName.trim().toLowerCase();
+    }
 }

@@ -1,4 +1,5 @@
 import {
+    BeforeInsert,
     Column,
     CreateDateColumn,
     Entity,
@@ -33,4 +34,11 @@ export class User {
 
     @UpdateDateColumn({ type: 'timestamptz' })
     updatedAt?: Date;
+
+    @BeforeInsert()
+    checkFieldsBeforeInsert() {
+        this.firstName = this.firstName.trim().toLowerCase();
+        this.lastName = this.lastName.trim().toLowerCase();
+        this.email = this.email.trim().toLowerCase();
+    }
 }

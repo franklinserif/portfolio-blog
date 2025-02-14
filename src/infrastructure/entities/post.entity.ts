@@ -1,4 +1,5 @@
 import {
+    BeforeInsert,
     Column,
     CreateDateColumn,
     Entity,
@@ -34,4 +35,10 @@ export class Post {
 
     @UpdateDateColumn({ type: 'timestamptz' })
     updatedAt!: Date;
+
+    @BeforeInsert()
+    checkFieldsBeforeInsert() {
+        this.title = this.title.trim().toLowerCase();
+        this.content = this.content.trim().toLowerCase();
+    }
 }
