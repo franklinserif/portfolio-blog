@@ -1,4 +1,3 @@
-import { DeleteResult } from 'typeorm';
 import { TypeORMUserRepository } from '@infrastructure/repositories/TypeORMUser.repository';
 import { User } from '@domain/entities/user';
 import { CreateUserDto } from '@application/dtos/users/createUser.dto';
@@ -46,11 +45,11 @@ export class UserService {
 
     async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
         await this.findOne(id);
-
         return await this.updateUser.execute(id, updateUserDto);
     }
 
-    async remove(id: string): Promise<DeleteResult> {
-        return await this.deleteUser.execute(id);
+    async remove(id: string): Promise<void> {
+        await this.findOne(id);
+        await this.deleteUser.execute(id);
     }
 }
