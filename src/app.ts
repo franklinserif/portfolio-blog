@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { container } from 'tsyringe';
 import { UserRouter } from '@presentation/routes/user.router';
+import { PostRouter } from '@presentation/routes/post.router';
 import { config } from '@shared/utils/config/config';
 import { AppDataSource } from './infrastructure/database/dataSource';
 import { ILogger } from '@shared/interfaces/logs';
@@ -71,7 +72,9 @@ class ServerBootstrap {
      */
     routers(): Array<express.Router> {
         const userRouter = container.resolve(UserRouter);
-        return [userRouter.router];
+        const postRouter = container.resolve(PostRouter);
+
+        return [userRouter.router, postRouter.router];
     }
 
     /**
