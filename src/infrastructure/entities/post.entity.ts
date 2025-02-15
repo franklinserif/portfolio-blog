@@ -22,6 +22,9 @@ export class Post {
     @Column('text')
     title!: string;
 
+    @Column('text', { unique: true })
+    urlPath!: string;
+
     @Column('text')
     content!: string;
 
