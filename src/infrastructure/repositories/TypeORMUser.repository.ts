@@ -1,6 +1,6 @@
-import { DeleteResult, Repository } from 'typeorm';
-import { AppDataSource } from '@infrastructure/database/dataSource';
+import { Repository } from 'typeorm';
 import { User } from '@infrastructure/entities/user.entity';
+import { AppDataSource } from '@infrastructure/database/dataSource';
 import { UserRepository } from '@domain/repositories/user.repository';
 
 export class TypeORMUserRepository implements UserRepository {
@@ -60,11 +60,11 @@ export class TypeORMUserRepository implements UserRepository {
     /**
      * Deletes a user from the database.
      * @param {string} id - The ID of the user to delete.
-     * @returns {Promise<DeleteResult>} A promise that resolves when the user is deleted.
+     * @returns {Promise<void>} A promise that resolves when the user is deleted.
      * @throws {Error} If the user is not found.
      */
-    async remove(id: string): Promise<DeleteResult> {
+    async remove(id: string): Promise<void> {
         await this.findOne(id);
-        return await this.repository.delete(id);
+        await this.repository.delete(id);
     }
 }
