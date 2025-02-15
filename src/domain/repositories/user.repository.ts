@@ -1,9 +1,6 @@
 import { User } from '@infrastructure/entities/user.entity';
 
-type TUser = Omit<
-    User,
-    'checkFieldsBeforeInsert' | 'updatedAt' | 'createdAt' | 'password'
->;
+type TUser = Omit<User, 'checkFieldsBeforeInsert' | 'updatedAt' | 'createdAt'>;
 
 export interface UserRepository {
     findOne(id: string): Promise<User>;
