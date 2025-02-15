@@ -1,12 +1,36 @@
 import { Repository } from 'typeorm';
 import { Post } from '@infrastructure/entities/post.entity';
 import { AppDataSource } from '@infrastructure/database/dataSource';
+import { PostRepository } from '@domain/repositories/post.repository';
 
-export class TypeORMPostRepository {
+export class TypeORMPostRepository implements PostRepository {
     private repository: Repository<Post>;
 
     constructor() {
         this.repository = AppDataSource.getRepository(Post);
+    }
+
+    /**
+     * Finds a post by its ID.
+     * @param {string} id - The ID of the post.
+     * @returns {Promise<Post>} The found post entity.
+     */
+    public async findOne(id: string): Promise<Post> {
+        const post = await this.repository.findOneBy({ id });
+
+        if (!post) {
+            throw new Error('Post not found');
+        }
+
+        return post;
+    }
+
+    /**
+     * Retrieves all posts.
+     * @returns {Promise<Post[]>} An array of post entities.
+     */
+    public async findAll(): Promise<Post[]> {
+        return await this.repository.find();
     }
 
     /**
@@ -19,39 +43,23 @@ export class TypeORMPostRepository {
     }
 
     /**
-     * Finds a post by its ID.
-     * @param {string} id - The ID of the post.
-     * @returns {Promise<Post | null>} The found post entity or null if not found.
-     */
-    public async findById(id: string): Promise<Post | null> {
-        return await this.repository.findOneBy({ id });
-    }
-
-    /**
-     * Retrieves all posts.
-     * @returns {Promise<Post[]>} An array of post entities.
-     */
-    public async findAll(): Promise<Post[]> {
-        return await this.repository.find();
-    }
-
-    /**
      * Updates an existing post.
      * @param {string} id - The ID of the post to update.
      * @param {Partial<Post>} post - The partial post entity with updated values.
      * @returns {Promise<Post | null>} The updated post entity or null if not found.
      */
-    public async update(id: string, post: Partial<Post>): Promise<Post | null> {
+    public async update(id: string, post: Partial<Post>): Promise<Post> {
         await this.repository.update(id, post);
-        return this.findById(id);
+        return await this.findOne(id);
     }
 
     /**
-     * Deletes a post by its ID.
-     * @param {string} id - The ID of the post to delete.
-     * @returns {Promise<void>} A promise that resolves when the post is deleted.
+     * Removes a post by its ID.
+     * @param {string} id - The ID of the post to remove.
+     * @returns {Promise<void>} A promise that resolves when the post is removed.
      */
-    public async delete(id: string): Promise<void> {
-        await this.repository.delete(id);
+    public async remove(id: string): Promise<void> {
+        const post = await this.findOne(id);
+        await this.repository.remove(post);
     }
 }
