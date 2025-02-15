@@ -7,14 +7,16 @@ export class Post {
     id: string;
     title: string;
     content: string;
+    urlPath: string;
     user: User;
     tags?: Array<Tag>;
     comments?: Array<Comment>;
 
-    constructor({ id, title, content, user }: Post) {
+    constructor({ id, title, content, urlPath, user }: Post) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.urlPath = urlPath; // added urlPath assignment
         this.user = user;
     }
 
@@ -23,6 +25,7 @@ export class Post {
             id: typeOrmPost.id,
             title: typeOrmPost.title,
             content: typeOrmPost.content,
+            urlPath: typeOrmPost.urlPath, // added to serialize urlPath
             user: typeOrmPost.user,
             tags: typeOrmPost.tags
         });
