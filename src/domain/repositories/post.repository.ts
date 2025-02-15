@@ -5,7 +5,9 @@ export interface PostRepository {
 
     findOne(id: string): Promise<Post>;
 
-    create(post: Omit<Post, 'checkFieldsBeforeInsert'>): Promise<Post>;
+    create(
+        post: Omit<Post, 'checkFieldsBeforeInsert' | 'createdAt' | 'updatedAt'>
+    ): Promise<Post>;
 
     update(id: string, post: Partial<Post>): Promise<Post>;
 
