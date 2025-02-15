@@ -3,12 +3,14 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    ManyToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
+import { Post } from './post.entity';
 
 @Entity('comments')
-export class Comments {
+export class Comment {
     @PrimaryGeneratedColumn('uuid')
     id!: string;
 
@@ -23,6 +25,9 @@ export class Comments {
 
     @Column('text')
     fullName!: string;
+
+    @ManyToOne(() => Post, (post) => post.comments)
+    post!: Post;
 
     @CreateDateColumn({ type: 'timestamptz' })
     createdAt!: Date;
