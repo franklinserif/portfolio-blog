@@ -1,7 +1,4 @@
-import { Type } from 'class-transformer';
-import { IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
-import { CreateUserDto } from '@application/dtos/users/createUser.dto';
-import { CreateTagDto } from '../tags/createTag';
+import { IsArray, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreatePostDto {
     @IsUUID()
@@ -13,12 +10,14 @@ export class CreatePostDto {
     @IsString()
     content!: string;
 
-    @ValidateNested()
-    @Type(() => CreateUserDto)
-    user!: CreateUserDto;
+    @IsString()
+    urlPath!: string;
+
+    @IsUUID()
+    userId!: string;
 
     @IsOptional()
-    @ValidateNested({ each: true })
-    @Type(() => CreateTagDto)
-    tags!: CreateTagDto[];
+    @IsString()
+    @IsArray({ each: true })
+    tagsId!: string[];
 }
