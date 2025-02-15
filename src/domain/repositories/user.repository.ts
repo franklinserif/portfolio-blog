@@ -1,5 +1,4 @@
 import { User } from '@infrastructure/entities/user.entity';
-import { DeleteResult } from 'typeorm';
 
 export interface UserRepository {
     findOne(id: string): Promise<User>;
@@ -10,5 +9,5 @@ export interface UserRepository {
 
     update(id: string, user: Partial<User>): Promise<User>;
 
-    remove(id: string): Promise<DeleteResult>;
+    remove(id: string): Promise<void>;
 }
