@@ -6,11 +6,13 @@ import {
     JoinTable,
     ManyToMany,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
 import { User } from './user.entity';
 import { Tag } from './tag.entity';
+import { Comment } from './comment.entity';
 
 @Entity('posts')
 export class Post {
@@ -26,9 +28,12 @@ export class Post {
     @ManyToOne(() => User, (user) => user.posts)
     user!: User;
 
-    @ManyToMany(() => Tag)
+    @ManyToMany(() => Tag, { eager: true })
     @JoinTable()
     tags!: Tag[];
+
+    @OneToMany(() => Comment, (comment) => comment.post, { eager: true })
+    comments!: Comment[];
 
     @CreateDateColumn({ type: 'timestamptz' })
     createdAt!: Date;
