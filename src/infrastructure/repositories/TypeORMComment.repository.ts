@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CommentRepository } from '@domain/repositories/comment.repository';
 import { AppDataSource } from '@infrastructure/database/dataSource';
 import { Comment } from '@infrastructure/entities/comment.entity';
@@ -16,6 +16,15 @@ export class TypeORMCommentRepository implements CommentRepository {
      */
     async findAll(): Promise<Comment[]> {
         return await this.commentRepository.find();
+    }
+
+    /**
+     * Retrieves all comments from the database.
+     * @param {string[]} ids - An array of comment IDs to retrieve.
+     * @returns {Promise<Comment[]>} A promise that resolves with an array of comments.
+     */
+    async findManyByIds(ids: string[]): Promise<Comment[]> {
+        return await this.commentRepository.findBy({ id: In(ids) });
     }
 
     /**

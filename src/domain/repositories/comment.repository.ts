@@ -8,6 +8,8 @@ type TComment = Omit<
 export interface CommentRepository {
     findAll(): Promise<Comment[]>;
 
+    findManyByIds(ids: string[]): Promise<Comment[]>;
+
     findOne(id: string): Promise<Comment>;
 
     create(comment: TComment): Promise<Comment>;
