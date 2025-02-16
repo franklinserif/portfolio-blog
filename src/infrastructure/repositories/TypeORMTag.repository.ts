@@ -1,5 +1,6 @@
 import { Repository } from 'typeorm';
 import { Tag } from '@infrastructure/entities/tag.entity';
+import { In } from 'typeorm';
 import { AppDataSource } from '@infrastructure/database/dataSource';
 import { TagRepository } from '@domain/repositories/tag.repository';
 
@@ -16,6 +17,15 @@ export class TypeORMTagRepository implements TagRepository {
      */
     async findAll(): Promise<Tag[]> {
         return await this.repository.find();
+    }
+
+    /**
+     * Retrieves all tags from the database.
+     * @param {string[]} ids - An array of tag IDs to retrieve.
+     * @returns {Promise<Tag[]>} A promise that resolves to an array of tags.
+     */
+    async findManyByIds(ids: string[]): Promise<Tag[]> {
+        return await this.repository.findBy({ id: In(ids) });
     }
 
     /**
