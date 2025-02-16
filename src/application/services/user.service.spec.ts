@@ -39,24 +39,26 @@ describe('UserService', () => {
 
     describe('findAll', () => {
         it('should return an array of users', async () => {
-            const mockUsers: User[] = [
+            const mockUsers: Omit<User, 'checkFieldsBeforeInsert'>[] = [
                 {
                     id: '1',
                     firstName: 'John',
                     lastName: 'Doe',
                     password: '1234567',
-                    email: 'john@example.com'
+                    email: 'john@example.com',
+                    posts: []
                 },
                 {
                     id: '2',
                     firstName: 'Jane',
                     lastName: 'Doe',
                     password: '1234567',
-                    email: 'jane@example.com'
+                    email: 'jane@example.com',
+                    posts: []
                 }
             ];
 
-            mockUserRepository.findAll.mockResolvedValue(mockUsers);
+            mockUserRepository.findAll.mockResolvedValue(mockUsers as User[]);
 
             const result = await userService.findAll();
 
@@ -67,15 +69,16 @@ describe('UserService', () => {
 
     describe('findOne', () => {
         it('should return a user if found', async () => {
-            const mockUser: User = {
+            const mockUser: Omit<User, 'checkFieldsBeforeInsert'> = {
                 id: '1',
                 firstName: 'John',
                 lastName: 'Doe',
                 password: '1234567',
-                email: 'john@example.com'
+                email: 'john@example.com',
+                posts: []
             };
 
-            mockUserRepository.findById.mockResolvedValue(mockUser);
+            mockUserRepository.findById.mockResolvedValue(mockUser as User);
 
             const result = await userService.findOne('1');
 
@@ -102,9 +105,10 @@ describe('UserService', () => {
                 password: '1234567',
                 email: 'john@example.com'
             };
-            const mockUser: User = createUserDto;
+            const mockUser: Omit<User, 'checkFieldsBeforeInsert'> =
+                createUserDto;
 
-            mockUserRepository.create.mockResolvedValue(mockUser);
+            mockUserRepository.create.mockResolvedValue(mockUser as User);
 
             const result = await userService.create(createUserDto);
 
@@ -118,7 +122,7 @@ describe('UserService', () => {
     describe('update', () => {
         it('should update and return the updated user', async () => {
             const updateUserDto: UpdateUserDto = { firstName: 'John Updated' };
-            const mockUser: User = {
+            const mockUser: Omit<User, 'checkFieldsBeforeInsert'> = {
                 id: '1',
                 firstName: 'John Updated',
                 lastName: 'Doe',
@@ -126,7 +130,7 @@ describe('UserService', () => {
                 email: 'john@example.com'
             };
 
-            mockUserRepository.update.mockResolvedValue(mockUser);
+            mockUserRepository.update.mockResolvedValue(mockUser as User);
 
             const result = await userService.update('1', updateUserDto);
 
@@ -149,13 +153,19 @@ describe('UserService', () => {
 
     describe('remove', () => {
         it('should delete a user and return the delete result', async () => {
-            const deleteResult: DeleteResult = { affected: 1, raw: {} };
+            const mockUser: Omit<User, 'checkFieldsBeforeInsert'> = {
+                id: '1',
+                firstName: 'John',
+                lastName: 'Doe',
+                password: '1234567',
+                email: 'john@example.com',
+                posts: []
+            };
 
-            mockUserRepository.delete.mockResolvedValue(deleteResult);
+            mockUserRepository.findById.mockResolvedValue(mockUser as User);
 
-            const result = await userService.remove('1');
+            await userService.remove('1');
 
-            expect(result).toEqual(deleteResult);
             expect(mockUserRepository.delete).toHaveBeenCalledWith('1');
         });
     });
