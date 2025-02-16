@@ -6,7 +6,9 @@ import { DeletePost } from '@domain/useCases/posts/deletePost';
 import { GetPostById } from '@domain/useCases/posts/getPostById';
 import { ListPosts } from '@domain/useCases/posts/listPosts';
 import { UpdatePost } from '@domain/useCases/posts/updatePost';
+import { TypeORMCommentRepository } from '@infrastructure/repositories/TypeORMComment.repository';
 import { TypeORMPostRepository } from '@infrastructure/repositories/TypeORMPost.repository';
+import { TypeORMTagRepository } from '@infrastructure/repositories/TypeORMTag.repository';
 import { TypeORMUserRepository } from '@infrastructure/repositories/TypeORMUser.repository';
 
 export class PostService {
@@ -19,11 +21,22 @@ export class PostService {
     constructor() {
         const postRepository = new TypeORMPostRepository();
         const userRepository = new TypeORMUserRepository();
+        const tagRepository = new TypeORMTagRepository();
+        const commentRepository = new TypeORMCommentRepository();
 
         this.listPosts = new ListPosts(postRepository);
         this.getPostById = new GetPostById(postRepository);
-        this.createPost = new CreatePost(postRepository, userRepository);
-        this.updatePost = new UpdatePost(postRepository);
+        this.createPost = new CreatePost(
+            postRepository,
+            userRepository,
+            tagRepository
+        );
+        this.updatePost = new UpdatePost(
+            postRepository,
+            userRepository,
+            tagRepository,
+            commentRepository
+        );
         this.deletePost = new DeletePost(postRepository);
     }
 
@@ -43,11 +56,6 @@ export class PostService {
      */
     async findOne(id: string): Promise<Post> {
         const post = await this.getPostById.execute(id);
-
-        if (!post) {
-            throw new Error(`post with id ${id} not found`);
-        }
-
         return post;
     }
 
@@ -68,7 +76,6 @@ export class PostService {
      * @throws {Error} If the post is not found.
      */
     async update(id: string, updatePostDto: UpdatePostDto): Promise<Post> {
-        await this.findOne(id);
         return this.updatePost.execute(id, updatePostDto);
     }
 
@@ -79,7 +86,6 @@ export class PostService {
      * @throws {Error} If the post is not found.
      */
     async remove(id: string): Promise<void> {
-        await this.findOne(id);
         return this.deletePost.execute(id);
     }
 }
