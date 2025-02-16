@@ -1,12 +1,15 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreatePostDto } from '@application/dtos/posts/createPost';
-import { IsOptional, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
-import { CreateCommentDto } from '../comments/createComment';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class UpdatePostDto extends PartialType(CreatePostDto) {
+    @IsArray()
+    @IsString({ each: true })
     @IsOptional()
-    @ValidateNested({ each: true })
-    @Type(() => CreateCommentDto)
-    comments?: CreateCommentDto[];
+    commentsId?: string[];
+
+    @IsArray()
+    @IsString({ each: true })
+    @IsOptional()
+    tagsId?: string[];
 }
