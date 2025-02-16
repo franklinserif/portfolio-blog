@@ -16,12 +16,15 @@ export class CreateUser {
                 createUserDto.password
             );
 
-            const user = new User(createUserDto);
+            const user = new User({ ...createUserDto, posts: [] });
 
-            return this.userRepository.create({
+            const createdUser = await this.userRepository.create({
                 ...user,
-                password: hashedPassword
+                password: hashedPassword,
+                posts: []
             });
+
+            return User.serializeUser(createdUser);
         } catch (error) {
             this.logger.error(
                 `something went wrong creating the user ${error}`
