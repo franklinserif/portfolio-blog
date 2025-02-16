@@ -1,17 +1,20 @@
 import { CreatePostDto } from '@application/dtos/posts/createPost';
-import { Post } from '@domain/entities/post';
-import { Post as TypeORMPost } from '@infrastructure/entities/post.entity';
-import { PostRepository } from '@domain/repositories/post.repository';
 import { ILogger } from '@shared/interfaces/logs';
 import { Logger } from '@shared/utils/logger/logger';
 import { UserRepository } from '@domain/repositories/user.repository';
+import { TagRepository } from '@domain/repositories/tag.repository';
+import { PostRepository } from '@domain/repositories/post.repository';
+import { Post as TypeORMPost } from '@infrastructure/entities/post.entity';
+import { User } from '@domain/entities/user';
+import { Post } from '@domain/entities/post';
 
 export class CreatePost {
     private readonly logger: ILogger = new Logger(CreatePost.name);
 
     constructor(
         private readonly postRepository: PostRepository,
-        private readonly userRepository: UserRepository
+        private readonly userRepository: UserRepository,
+        private readonly tagRepository: TagRepository
     ) {}
 
     async execute(createPostDto: CreatePostDto): Promise<Post> {
@@ -20,17 +23,23 @@ export class CreatePost {
                 createPostDto.userId
             );
 
+            const tags = await this.tagRepository.findManyByIds(
+                createPostDto.tagsId
+            );
+
             const post = new Post({
                 id: createPostDto.id,
                 title: createPostDto.title,
                 content: createPostDto.content,
                 urlPath: createPostDto.urlPath,
-                user,
                 comments: [],
-                tags: []
+                tags,
+                user: User.serializeUser(user)
             }) as TypeORMPost;
 
-            return this.postRepository.create(post);
+            const createdPost = await this.postRepository.create(post);
+
+            return Post.serializePost(createdPost);
         } catch (error) {
             this.logger.error(
                 `something went wrong creating the post ${error}`
