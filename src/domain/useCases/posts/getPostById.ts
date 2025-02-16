@@ -7,6 +7,10 @@ export class GetPostById {
     async execute(id: string): Promise<Post> {
         const post = Post.serializePost(await this.postRepository.findOne(id));
 
+        if (!post) {
+            throw new Error('Post not found');
+        }
+
         return post;
     }
 }
