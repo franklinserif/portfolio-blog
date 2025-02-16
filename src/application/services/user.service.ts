@@ -25,31 +25,48 @@ export class UserService {
         this.deleteUser = new DeleteUser(userRepository);
     }
 
+    /**
+     * Retrieves all users.
+     * @returns {Promise<User[]>} A promise that resolves to an array of users.
+     */
     async findAll(): Promise<User[]> {
         return this.listUsers.execute();
     }
 
+    /**
+     * Retrieves a user by ID.
+     * @param {string} id - The ID of the user.
+     * @returns {Promise<User>} A promise that resolves to the user.
+     */
     async findOne(id: string): Promise<User> {
-        const user = await this.getUserById.execute(id);
-
-        if (!user) {
-            throw new Error(`user with id ${id} not found`);
-        }
-
-        return user;
+        return this.getUserById.execute(id);
     }
 
+    /**
+     * Creates a new user.
+     * @param {CreateUserDto} createUserDto - The data transfer object containing user details.
+     * @returns {Promise<User>} A promise that resolves to the created user.
+     */
     async create(createUserDto: CreateUserDto): Promise<User> {
         return this.createUser.execute(createUserDto);
     }
 
+    /**
+     * Updates an existing user.
+     * @param {string} id - The ID of the user.
+     * @param {UpdateUserDto} updateUserDto - The data transfer object containing updated user details.
+     * @returns {Promise<User>} A promise that resolves to the updated user.
+     */
     async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-        await this.findOne(id);
         return await this.updateUser.execute(id, updateUserDto);
     }
 
+    /**
+     * Deletes a user by ID.
+     * @param {string} id - The ID of the user to delete.
+     * @returns {Promise<void>} A promise that resolves when the user is deleted.
+     */
     async remove(id: string): Promise<void> {
-        await this.findOne(id);
         await this.deleteUser.execute(id);
     }
 }
