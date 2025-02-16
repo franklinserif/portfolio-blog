@@ -5,6 +5,8 @@ type TTag = Omit<Tag, 'checkFieldsBeforeInsert' | 'updatedAt' | 'createdAt'>;
 export interface TagRepository {
     findAll(): Promise<Tag[]>;
 
+    findManyByIds(ids: string[]): Promise<Tag[]>;
+
     findOne(id: string): Promise<Tag>;
 
     create(tag: TTag): Promise<Tag>;
