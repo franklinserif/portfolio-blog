@@ -16,8 +16,8 @@ export class CreatePostDto {
     @IsUUID()
     userId!: string;
 
+    @IsArray()
+    @IsString({ each: true })
     @IsOptional()
-    @IsString()
-    @IsArray({ each: true })
     tagsId!: string[];
 }
