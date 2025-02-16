@@ -49,7 +49,7 @@ export class TypeORMPostRepository implements PostRepository {
      * @returns {Promise<Post | null>} The updated post entity or null if not found.
      */
     public async update(id: string, post: Partial<Post>): Promise<Post> {
-        await this.repository.update(id, post);
+        await this.repository.save(post);
         return await this.findOne(id);
     }
 
