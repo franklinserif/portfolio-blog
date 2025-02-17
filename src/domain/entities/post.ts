@@ -26,7 +26,7 @@ export class Post {
             title: typeOrmPost.title,
             content: typeOrmPost.content,
             urlPath: typeOrmPost.urlPath, // added to serialize urlPath
-            user: typeOrmPost.user,
+            user: User.serializeUser(typeOrmPost.user),
             tags: typeOrmPost.tags
         });
 
