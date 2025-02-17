@@ -4,6 +4,7 @@ import { PostRepository } from '@domain/repositories/post.repository';
 import { Comment } from '@domain/entities/comment';
 import { ILogger } from '@shared/interfaces/logs';
 import { Logger } from '@shared/utils/logger/logger';
+import { HttpException } from '@shared/errors/http.exception';
 
 export class CreateComment {
     private readonly logger: ILogger = new Logger(CreateComment.name);
@@ -20,7 +21,7 @@ export class CreateComment {
             );
 
             if (!post) {
-                throw new Error('Post not found');
+                throw new HttpException(404, 'comment not found');
             }
 
             const commentCreated = await this.commentRepository.create({
@@ -35,7 +36,7 @@ export class CreateComment {
 
             return comment;
         } catch (error) {
-            throw new Error(`${error}`);
+            throw new HttpException(500, 'error creating comment', error);
         }
     }
 }

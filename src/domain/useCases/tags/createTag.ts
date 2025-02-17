@@ -3,6 +3,7 @@ import { Tag } from '@domain/entities/tag';
 import { TagRepository } from '@domain/repositories/tag.repository';
 import { Logger } from '@shared/utils/logger/logger';
 import { ILogger } from '@shared/interfaces/logs';
+import { HttpException } from '@shared/errors/http.exception';
 
 export class CreateTag {
     private readonly logger: ILogger = new Logger(CreateTag.name);
@@ -16,7 +17,7 @@ export class CreateTag {
 
             return Tag.serializeTag(createdTag);
         } catch (error) {
-            throw new Error(`something went wrong creating the tag ${error}`);
+            throw new HttpException(500, 'error creating tag', error);
         }
     }
 }

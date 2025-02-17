@@ -1,4 +1,5 @@
 import { PostRepository } from '@domain/repositories/post.repository';
+import { HttpException } from '@shared/errors/http.exception';
 import { ILogger } from '@shared/interfaces/logs';
 import { Logger } from '@shared/utils/logger/logger';
 
@@ -12,13 +13,13 @@ export class DeletePost {
             const post = await this.postRepository.findOne(id);
 
             if (!post) {
-                throw new Error(`post with id ${id} was not found`);
+                throw new HttpException(404, 'post not found');
             }
 
             await this.postRepository.remove(id);
             this.logger.info(`post with id ${id} was deleted`);
         } catch (error) {
-            throw new Error(`${error}`);
+            throw new HttpException(500, 'error deleting post', error);
         }
     }
 }

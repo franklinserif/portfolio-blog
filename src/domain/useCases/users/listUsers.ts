@@ -1,5 +1,6 @@
 import { User } from '@domain/entities/user';
 import { UserRepository } from '@domain/repositories/user.repository';
+import { HttpException } from '@shared/errors/http.exception';
 import { ILogger } from '@shared/interfaces/logs';
 import { Logger } from '@shared/utils/logger/logger';
 
@@ -16,9 +17,7 @@ export class ListUsers {
 
             return users;
         } catch (error) {
-            throw new Error(
-                `something wrong happend when tried to get list of users ${error}`
-            );
+            throw new HttpException(500, 'error getting user list', error);
         }
     }
 }

@@ -1,6 +1,7 @@
 import { CreateUserDto } from '@application/dtos/users/createUser.dto';
 import { User } from '@domain/entities/user';
 import { UserRepository } from '@domain/repositories/user.repository';
+import { HttpException } from '@shared/errors/http.exception';
 import { ILogger } from '@shared/interfaces/logs';
 import { Crypt } from '@shared/utils/crypt/crypt';
 import { Logger } from '@shared/utils/logger/logger';
@@ -26,7 +27,7 @@ export class CreateUser {
 
             return User.serializeUser(createdUser);
         } catch (error) {
-            throw new Error(`something went wrong creating the user ${error}`);
+            throw new HttpException(500, 'error creating user', error);
         }
     }
 }

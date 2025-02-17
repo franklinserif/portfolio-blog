@@ -3,6 +3,7 @@ import { CommentRepository } from '@domain/repositories/comment.repository';
 import { Comment } from '@domain/entities/comment';
 import { ILogger } from '@shared/interfaces/logs';
 import { Logger } from '@shared/utils/logger/logger';
+import { HttpException } from '@shared/errors/http.exception';
 
 export class UpdateComment {
     private readonly logger: ILogger = new Logger(UpdateComment.name);
@@ -17,7 +18,7 @@ export class UpdateComment {
             let comment = await this.commentRepository.findOne(id);
 
             if (!comment) {
-                throw new Error(`comment with id ${id} not found`);
+                throw new HttpException(404, 'comment not found');
             }
 
             await this.commentRepository.update(id, updateCommentDto);
@@ -28,7 +29,7 @@ export class UpdateComment {
 
             return serializedComment;
         } catch (error) {
-            throw new Error(`${error}`);
+            throw new HttpException(500, 'error updating comment', error);
         }
     }
 }

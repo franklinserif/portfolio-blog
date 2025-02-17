@@ -1,5 +1,6 @@
 import { Post } from '@domain/entities/post';
 import { PostRepository } from '@domain/repositories/post.repository';
+import { HttpException } from '@shared/errors/http.exception';
 
 export class GetPostById {
     constructor(private readonly postRepository: PostRepository) {}
@@ -11,12 +12,12 @@ export class GetPostById {
             );
 
             if (!post) {
-                throw new Error('Post not found');
+                throw new HttpException(404, 'post not found');
             }
 
             return post;
         } catch (error) {
-            throw new Error(`${error}`);
+            throw new HttpException(500, 'error getting post by id', error);
         }
     }
 }

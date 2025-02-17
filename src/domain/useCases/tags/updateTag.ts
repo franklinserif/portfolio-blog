@@ -1,6 +1,7 @@
 import { UpdateTagDto } from '@application/dtos/tags/updateTag';
 import { Tag } from '@domain/entities/tag';
 import { TagRepository } from '@domain/repositories/tag.repository';
+import { HttpException } from '@shared/errors/http.exception';
 import { ILogger } from '@shared/interfaces/logs';
 import { Logger } from '@shared/utils/logger/logger';
 
@@ -14,7 +15,7 @@ export class UpdateTag {
             const tagFounded = await this.tagRepository.findOne(id);
 
             if (!tagFounded) {
-                throw new Error('Tag not found');
+                throw new HttpException(404, 'tag not found');
             }
 
             const updatedTag = await this.tagRepository.update(
@@ -26,7 +27,7 @@ export class UpdateTag {
 
             return tag;
         } catch (error) {
-            throw new Error(`${error}`);
+            throw new HttpException(500, 'error updating tag', error);
         }
     }
 }

@@ -7,6 +7,7 @@ import { PostRepository } from '@domain/repositories/post.repository';
 import { Post as TypeORMPost } from '@infrastructure/entities/post.entity';
 import { User } from '@domain/entities/user';
 import { Post } from '@domain/entities/post';
+import { HttpException } from '@shared/errors/http.exception';
 
 export class CreatePost {
     private readonly logger: ILogger = new Logger(CreatePost.name);
@@ -42,7 +43,7 @@ export class CreatePost {
 
             return Post.serializePost(createdPost);
         } catch (error) {
-            throw new Error(`something went wrong creating the post ${error}`);
+            throw new HttpException(500, 'error creating post', error);
         }
     }
 }

@@ -1,5 +1,6 @@
 import { TagRepository } from '@domain/repositories/tag.repository';
 import { Tag } from '@domain/entities/tag';
+import { HttpException } from '@shared/errors/http.exception';
 
 export class ListTags {
     constructor(private tagRepository: TagRepository) {}
@@ -11,7 +12,7 @@ export class ListTags {
             const serialezedTags = Tag.serializeAll(tags);
             return serialezedTags;
         } catch (error) {
-            throw new Error(`${error}`);
+            throw new HttpException(500, 'error getting tag list', error);
         }
     }
 }

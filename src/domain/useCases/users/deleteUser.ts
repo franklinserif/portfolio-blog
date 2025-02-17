@@ -1,4 +1,5 @@
 import { UserRepository } from '@domain/repositories/user.repository';
+import { HttpException } from '@shared/errors/http.exception';
 import { ILogger } from '@shared/interfaces/logs';
 import { Logger } from '@shared/utils/logger/logger';
 
@@ -12,15 +13,13 @@ export class DeleteUser {
             const user = await this.userRepository.findOne(id);
 
             if (!user) {
-                throw new Error(`User with id ${id} not found`);
+                throw new HttpException(404, 'user not found');
             }
 
             this.logger.info(`user with id ${id} was deleted`);
             await this.userRepository.remove(id);
         } catch (error) {
-            throw new Error(
-                `something wrong happend when tried to delete an user error: ${error}`
-            );
+            throw new HttpException(500, 'error deleting user', error);
         }
     }
 }

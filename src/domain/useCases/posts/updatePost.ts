@@ -4,6 +4,7 @@ import { CommentRepository } from '@domain/repositories/comment.repository';
 import { PostRepository } from '@domain/repositories/post.repository';
 import { TagRepository } from '@domain/repositories/tag.repository';
 import { UserRepository } from '@domain/repositories/user.repository';
+import { HttpException } from '@shared/errors/http.exception';
 import { ILogger } from '@shared/interfaces/logs';
 import { Logger } from '@shared/utils/logger/logger';
 
@@ -22,7 +23,7 @@ export class UpdatePost {
             let post = await this.postRepository.findOne(id);
 
             if (!post) {
-                throw new Error(`post with id ${id} not found`);
+                throw new HttpException(404, 'post not found');
             }
 
             if (updatePostDto.userId) {
@@ -31,9 +32,7 @@ export class UpdatePost {
                 );
 
                 if (!post.user) {
-                    throw new Error(
-                        `user with id ${updatePostDto.userId} not found`
-                    );
+                    throw new HttpException(404, 'user not found');
                 }
             }
 
@@ -62,7 +61,7 @@ export class UpdatePost {
 
             return serializePost;
         } catch (error) {
-            throw new Error(`${error}`);
+            throw new HttpException(500, 'error updating post', error);
         }
     }
 }

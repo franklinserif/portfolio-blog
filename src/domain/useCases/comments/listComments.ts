@@ -1,5 +1,6 @@
 import { CommentRepository } from '@domain/repositories/comment.repository';
 import { Comment } from '@domain/entities/comment';
+import { HttpException } from '@shared/errors/http.exception';
 
 export class ListComments {
     constructor(private readonly commentRepository: CommentRepository) {}
@@ -11,7 +12,7 @@ export class ListComments {
             const serializeComments = Comment.serializeAll(comments);
             return serializeComments;
         } catch (error) {
-            throw new Error(`${error}`);
+            throw new HttpException(500, 'error getting comment list', error);
         }
     }
 }
