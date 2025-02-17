@@ -5,6 +5,10 @@ export class HttpException extends Error {
         public readonly message: string,
         public readonly details?: any
     ) {
+        if (details instanceof HttpException) {
+            throw details;
+        }
+
         super(message);
         Object.setPrototypeOf(this, HttpException.prototype);
     }
