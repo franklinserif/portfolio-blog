@@ -2,14 +2,22 @@ import {
     IsEmail,
     IsNotEmpty,
     IsString,
+    IsUUID,
     MaxLength,
-    MinLength,
-    ValidateNested
+    MinLength
 } from 'class-validator';
-import { Type } from 'class-transformer';
-import { CreatePostDto } from '@application/dtos/posts/createPost';
 
 export class CreateCommentDto {
+    @IsUUID()
+    @IsNotEmpty()
+    id!: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(3)
+    @MaxLength(255)
+    comment!: string;
+
     @IsNotEmpty()
     @IsEmail()
     @MinLength(3)
@@ -32,7 +40,7 @@ export class CreateCommentDto {
     @MaxLength(255)
     fullName!: string;
 
-    @ValidateNested()
-    @Type(() => CreatePostDto)
-    user!: CreatePostDto;
+    @IsUUID()
+    @IsNotEmpty()
+    postId!: string;
 }
