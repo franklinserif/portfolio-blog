@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'reflect-metadata';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
@@ -11,6 +12,7 @@ import { config } from '@shared/utils/config/config';
 import { AppDataSource } from './infrastructure/database/dataSource';
 import { ILogger } from '@shared/interfaces/logs';
 import { Logger } from '@shared/utils/logger/logger';
+import { errorMiddleware } from '@presentation/middlewares/error.middleware';
 
 class ServerBootstrap {
     private readonly app: express.Application = express();
@@ -22,9 +24,12 @@ class ServerBootstrap {
      * @constructor
      */
     constructor() {
+        this.registerProcessHandlers();
         this.initializeMiddleware();
         this.initConnect();
         this.app.use('/api', this.routers());
+        this.handleNotFound();
+        this.handleExceptions();
         this.listen();
     }
 
@@ -75,6 +80,35 @@ class ServerBootstrap {
         const postRouter = container.resolve(PostRouter);
 
         return [userRouter.router, postRouter.router];
+    }
+
+    private handleNotFound(): void {
+        this.app.use('/*', (req: Request, res: Response) => {
+            res.status(404).json({
+                statusCode: 404,
+                message: 'Endpoint not found'
+            });
+        });
+    }
+
+    private handleExceptions(): void {
+        this.app.use(errorMiddleware(this.logger));
+    }
+
+    private registerProcessHandlers(): void {
+        process.on(
+            'unhandledRejection',
+            (reason: Error, promise: Promise<any>) => {
+                this.logger.error(
+                    `Unhandled Rejection at: ${promise}, reason: ${reason.message}`
+                );
+            }
+        );
+
+        process.on('uncaughtException', (error: Error) => {
+            this.logger.error(`Uncaught Exception: ${error.message}`);
+            process.exit(1);
+        });
     }
 
     /**
