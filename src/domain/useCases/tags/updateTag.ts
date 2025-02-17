@@ -22,7 +22,6 @@ export class UpdateTag {
                 updateTagDto
             );
             const tag = Tag.serializeTag(updatedTag);
-
             this.Logger.info(`Tag with id ${id} was updated`);
 
             return tag;

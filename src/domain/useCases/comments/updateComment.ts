@@ -21,7 +21,6 @@ export class UpdateComment {
             }
 
             await this.commentRepository.update(id, updateCommentDto);
-
             comment = await this.commentRepository.findOne(id);
 
             const serializedComment = Comment.serializeComment(comment);

@@ -17,13 +17,11 @@ export class CreateUser {
             );
 
             const user = new User({ ...createUserDto, posts: [] });
-
             const createdUser = await this.userRepository.create({
                 ...user,
                 password: hashedPassword,
                 posts: []
             });
-
             this.logger.info(`user width id ${user.id} was created`);
 
             return User.serializeUser(createdUser);

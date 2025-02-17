@@ -9,7 +9,6 @@ export class ListTags {
             const tags = await this.tagRepository.findAll();
 
             const serialezedTags = Tag.serializeAll(tags);
-
             return serialezedTags;
         } catch (error) {
             throw new Error(`${error}`);

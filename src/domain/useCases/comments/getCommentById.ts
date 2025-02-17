@@ -13,7 +13,6 @@ export class GetCommentById {
             }
 
             const serializeComment = Comment.serializeComment(comment);
-
             return serializeComment;
         } catch (error) {
             throw new Error(`${error}`);

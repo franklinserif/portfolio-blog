@@ -16,7 +16,6 @@ export class DeleteUser {
             }
 
             this.logger.info(`user with id ${id} was deleted`);
-
             await this.userRepository.remove(id);
         } catch (error) {
             throw new Error(
