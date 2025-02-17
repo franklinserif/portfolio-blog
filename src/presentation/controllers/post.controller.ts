@@ -1,6 +1,8 @@
+import { autoInjectable } from 'tsyringe';
 import { Request, Response } from 'express';
 import { PostService } from '@application/services/post.service';
-import { autoInjectable } from 'tsyringe';
+import { CreatePostDto } from '@application/dtos/posts/createPost';
+import { UpdatePostDto } from '@application/dtos/posts/updatePost';
 
 @autoInjectable()
 export class PostController {
@@ -25,7 +27,7 @@ export class PostController {
     }
 
     async createPost(req: Request, res: Response): Promise<void> {
-        const createPostDto = req.body;
+        const createPostDto: CreatePostDto = req.body;
 
         const post = await this.postService.create(createPostDto);
 
@@ -34,7 +36,7 @@ export class PostController {
 
     async updatePost(req: Request, res: Response): Promise<void> {
         const { id } = req.params as { id: string };
-        const updatePostDto = req.body;
+        const updatePostDto: UpdatePostDto = req.body;
 
         const post = await this.postService.update(id, updatePostDto);
 
