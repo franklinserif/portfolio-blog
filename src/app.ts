@@ -8,6 +8,8 @@ import rateLimit from 'express-rate-limit';
 import { container } from 'tsyringe';
 import { UserRouter } from '@presentation/routes/user.router';
 import { PostRouter } from '@presentation/routes/post.router';
+import { TagRouter } from '@presentation/routes/tag.router';
+import { CommentRouter } from '@presentation/routes/comment.router';
 import { config } from '@shared/utils/config/config';
 import { AppDataSource } from './infrastructure/database/dataSource';
 import { ILogger } from '@shared/interfaces/logs';
@@ -78,8 +80,15 @@ class ServerBootstrap {
     routers(): Array<express.Router> {
         const userRouter = container.resolve(UserRouter);
         const postRouter = container.resolve(PostRouter);
+        const tagRouter = container.resolve(TagRouter);
+        const commentRouter = container.resolve(CommentRouter);
 
-        return [userRouter.router, postRouter.router];
+        return [
+            userRouter.router,
+            postRouter.router,
+            tagRouter.router,
+            commentRouter.router
+        ];
     }
 
     private handleNotFound(): void {
