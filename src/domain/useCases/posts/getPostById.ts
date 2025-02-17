@@ -5,12 +5,18 @@ export class GetPostById {
     constructor(private readonly postRepository: PostRepository) {}
 
     async execute(id: string): Promise<Post> {
-        const post = Post.serializePost(await this.postRepository.findOne(id));
+        try {
+            const post = Post.serializePost(
+                await this.postRepository.findOne(id)
+            );
 
-        if (!post) {
-            throw new Error('Post not found');
+            if (!post) {
+                throw new Error('Post not found');
+            }
+
+            return post;
+        } catch (error) {
+            throw new Error(`${error}`);
         }
-
-        return post;
     }
 }
