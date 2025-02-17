@@ -24,11 +24,10 @@ export class CreateUser {
                 posts: []
             });
 
+            this.logger.info(`user width id ${user.id} was created`);
+
             return User.serializeUser(createdUser);
         } catch (error) {
-            this.logger.error(
-                `something went wrong creating the user ${error}`
-            );
             throw new Error(`something went wrong creating the user ${error}`);
         }
     }
