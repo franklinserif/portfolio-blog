@@ -27,7 +27,7 @@ export class User {
     password!: string;
 
     @OneToMany(() => Post, (posts) => posts.user, { nullable: true })
-    posts?: Post[];
+    posts!: Post[];
 
     @CreateDateColumn({ type: 'timestamptz' })
     createdAt?: Date;
