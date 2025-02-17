@@ -25,7 +25,7 @@ export class Comment {
             email: typeOrmComment.email,
             emailHash: typeOrmComment.emailHash,
             fullName: typeOrmComment.fullName,
-            post: typeOrmComment.post
+            post: Post.serializePost(typeOrmComment.post)
         });
 
         return comment;
