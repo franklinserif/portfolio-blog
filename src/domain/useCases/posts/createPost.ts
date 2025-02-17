@@ -38,12 +38,10 @@ export class CreatePost {
             }) as TypeORMPost;
 
             const createdPost = await this.postRepository.create(post);
+            this.logger.info(`post with id ${createdPost.id} was created`);
 
             return Post.serializePost(createdPost);
         } catch (error) {
-            this.logger.error(
-                `something went wrong creating the post ${error}`
-            );
             throw new Error(`something went wrong creating the post ${error}`);
         }
     }
