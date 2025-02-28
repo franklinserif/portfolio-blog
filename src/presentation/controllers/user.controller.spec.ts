@@ -134,12 +134,12 @@ describe('UserController', () => {
 
     describe('DELETE /users/:id', () => {
         it('should delete a user by ID', async () => {
-            const deleteResult = { affected: 1 };
+            const deleteResult = { message: 'User deleted successfully' };
             userService.remove.mockResolvedValue();
 
             const response = await request(app).delete('/users/1');
 
-            expect(response.status).toBe(201);
+            expect(response.status).toBe(200);
             expect(response.body).toEqual(deleteResult);
             expect(userService.remove).toHaveBeenCalledWith('1');
         });
