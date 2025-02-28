@@ -3,7 +3,6 @@ import express, { Application } from 'express';
 import { UserController } from '@presentation/controllers/user.controller';
 import { UserService } from '@application/services/user.service';
 import { UpdateUserDto } from '@application/dtos/users/updateUser.dto';
-import { DeleteResult } from 'typeorm';
 
 jest.mock('@application/services/user.service');
 
@@ -136,7 +135,7 @@ describe('UserController', () => {
     describe('DELETE /users/:id', () => {
         it('should delete a user by ID', async () => {
             const deleteResult = { affected: 1 };
-            userService.remove.mockResolvedValue(deleteResult as DeleteResult);
+            userService.remove.mockResolvedValue();
 
             const response = await request(app).delete('/users/1');
 
