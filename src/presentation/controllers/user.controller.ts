@@ -9,10 +9,6 @@ import { UpdateUserDto } from '@application/dtos/users/updateUser.dto';
 export class UserController {
     private readonly userService: UserService;
 
-    /**
-     * Creates an instance of UserController.
-     * @param {UserService} userService - The service responsible for user-related operations.
-     */
     constructor(userService: UserService) {
         this.userService = userService;
     }
