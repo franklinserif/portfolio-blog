@@ -1,7 +1,7 @@
 import { autoInjectable } from 'tsyringe';
 import { BaseRouter } from '@presentation/routes/router';
 import { PostController } from '@presentation/controllers/post.controller';
-import { validationMiddleware } from '@shared/middlewares/validation.middleware';
+import { validationMiddleware } from '@presentation/middlewares/validation.middleware';
 import { CreatePostDto } from '@application/dtos/posts/createPost';
 import { UpdatePostDto } from '@application/dtos/posts/updatePost';
 

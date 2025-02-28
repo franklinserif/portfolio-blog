@@ -3,7 +3,7 @@ import { CreateTagDto } from '@application/dtos/tags/createTag';
 import { UpdateTagDto } from '@application/dtos/tags/updateTag';
 import { TagController } from '@presentation/controllers/tag.controller';
 import { BaseRouter } from '@presentation/routes/router';
-import { validationMiddleware } from '@shared/middlewares/validation.middleware';
+import { validationMiddleware } from '@presentation/middlewares/validation.middleware';
 
 @autoInjectable()
 export class TagRouter extends BaseRouter {
