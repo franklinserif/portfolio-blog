@@ -13,7 +13,7 @@ permissions:
     contents: write
 
 jobs:
-    build:
+    check-code:
         name: check-code
         runs-on: ubuntu-latest
 
