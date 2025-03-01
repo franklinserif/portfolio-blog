@@ -4,6 +4,8 @@ import { CreateUserDto } from '@application/dtos/users/createUser.dto';
 import { UpdateUserDto } from '@application/dtos/users/updateUser.dto';
 import { validationMiddleware } from '@presentation/middlewares/validation.middleware';
 import { BaseRouter } from '@presentation/routes/router';
+import { IdParamDto } from '@shared/dtos/idParam.dto';
+import { REQUEST } from '@shared/enums/data';
 
 @autoInjectable()
 export class UserRouter extends BaseRouter {
@@ -25,18 +27,23 @@ export class UserRouter extends BaseRouter {
             (req, res) => this.userController.createUser(req, res)
         );
 
-        this.router.get('/users/:id', (req, res) =>
-            this.userController.findUser(req, res)
+        this.router.get(
+            '/users/:id',
+            validationMiddleware(IdParamDto, REQUEST.PARAMS),
+            (req, res) => this.userController.findUser(req, res)
         );
 
         this.router.put(
             '/users/:id',
+            validationMiddleware(IdParamDto, REQUEST.PARAMS),
             validationMiddleware(UpdateUserDto),
             (req, res) => this.userController.updateUser(req, res)
         );
 
-        this.router.delete('/users/:id', (req, res) =>
-            this.userController.removeUser(req, res)
+        this.router.delete(
+            '/users/:id',
+            validationMiddleware(IdParamDto, REQUEST.PARAMS),
+            (req, res) => this.userController.removeUser(req, res)
         );
     }
 }
